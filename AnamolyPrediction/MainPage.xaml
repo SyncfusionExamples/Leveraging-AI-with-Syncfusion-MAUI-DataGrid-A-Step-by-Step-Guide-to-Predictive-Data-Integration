@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:AnamolyPrediction.ViewModel"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:local="clr-namespace:AnamolyPrediction"
+             x:Class="AnamolyPrediction.MainPage">
+
+    <ContentPage.BindingContext>
+        <ViewModel:MachineDataRepository x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <local:ColorConverter x:Key="converter"/>
+        <Style TargetType="syncfusion:DataGridCell">
+            <Setter Property="Background" Value="{Binding Source={RelativeSource Mode=Self}, Converter={StaticResource Key=converter}}"/>
+            <Setter Property="FontSize"
+        Value="14" />
+        </Style>
+        <Style TargetType="syncfusion:DataGridHeaderCell">
+            <Setter Property="FontFamily"
+                    Value="Roboto-Medium" />
+            <Setter Property="FontSize"
+                    Value="14" />
+        </Style>
+
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <HorizontalStackLayout HeightRequest="65"
+                               Margin="10">
+
+            <Frame HeightRequest="40"
+                   WidthRequest="137"
+                   HasShadow="False"
+                   Padding="0"
+                   Margin="5"
+                   Background="Transparent"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   BorderColor="Gray"
+                   CornerRadius="20">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                          Tapped="Button_Clicked" />
+                </Frame.GestureRecognizers>
+                <Grid x:Name="myGrid"
+                      ColumnDefinitions="150"
+                      RowDefinitions="40">
+
+                    <Label Grid.Column="0"
+                           Text="Detect anomoly data"
+                           FontSize="13"
+                           HeightRequest="20"
+                           WidthRequest="800"
+                           Padding="3"
+                           HorizontalTextAlignment="Start"
+                           VerticalTextAlignment="Center" />
+                </Grid>
+
+            </Frame>
+
+
+        </HorizontalStackLayout>
+
+        <!--<Button Clicked="Button_Clicked" Margin="5" Text="Detect Anomoly Data" Height="25" Width="100" HorizontalOptions="Start"/>-->
+
+        <syncfusion:SfDataGrid x:Name="dataGrid"
+                               Grid.Row="1"
+                               HeaderRowHeight="52"
+                               HorizontalScrollBarVisibility="Always"
+                               VerticalScrollBarVisibility="Always"
+                               Margin="5"
+                               ColumnWidthMode="Fill"
+                               AutoGenerateColumnsMode="None"
+                               ItemsSource="{Binding MachineDataCollection}">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:DataGridTextColumn HeaderText="Machine ID"      MinimumWidth="120"  MappingName="MachineID" />
+                <syncfusion:DataGridTextColumn HeaderText="Temperature"     MinimumWidth="120"  MappingName="Temperature" />
+                <syncfusion:DataGridTextColumn HeaderText="Pressure"        MinimumWidth="120"  MappingName="Pressure" />
+                <syncfusion:DataGridTextColumn HeaderText="Voltage"         MinimumWidth="120"  MappingName="Voltage" />
+                <syncfusion:DataGridTextColumn HeaderText="Motor Speed"     MinimumWidth="120"  MappingName="MotorSpeed" />
+                <syncfusion:DataGridTextColumn HeaderText="Production Rate" MinimumWidth="140"  MappingName="ProductionRate" />
+
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+        <ActivityIndicator IsRunning="False"
+                           x:Name="Indicator"
+                           Grid.Row="1"
+                           
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Color="Black" />
+
+    </Grid>
+
+</ContentPage>
